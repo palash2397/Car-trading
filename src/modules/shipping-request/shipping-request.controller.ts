@@ -80,6 +80,14 @@ export class ShippingRequestController {
     return this.shippingRequestService.towerShippingRequests(req.user.id);
   }
 
+
+  @Get('tower/:id')
+  @Roles(Role.TOWER, Role.ADMIN)
+  async towerShippingRequest(@Req() req: any, @Param('id') id: string) {
+    return this.shippingRequestService.towerShippingRequest(req.user.id, id);
+  }
+
+
   @Patch('seller/assign')
   @Roles(Role.SELLER, Role.ADMIN)
   async assignShippingProvider(
