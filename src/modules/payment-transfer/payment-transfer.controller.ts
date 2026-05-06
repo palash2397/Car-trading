@@ -2,10 +2,7 @@ import { Controller } from '@nestjs/common';
 
 import {
   ApiBearerAuth,
-  ApiTags,
-  ApiConsumes,
-  ApiBody,
-  ApiParam,
+  ApiTags
 } from '@nestjs/swagger';
 import { PaymentTransferService } from './payment-transfer.service';
 
