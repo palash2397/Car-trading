@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
+import { PaymentTransferStatus } from 'src/common/enums/payment/payment-transfer-status.enum';
 
 
 export type PaymentTransferDocument = HydratedDocument<PaymentTransfer>;
