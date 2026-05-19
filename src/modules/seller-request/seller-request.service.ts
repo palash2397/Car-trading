@@ -20,9 +20,7 @@ import { Msg } from 'src/utils/helpers/responseMsg';
 import { CreateSellerRequestDto } from './dto/create-seller-request.dto';
 import { UpdateSellerRequestStatusDto } from './dto/update-seller-request-status.dto';
 
-
 import { SellerRequestStatus } from 'src/common/enums/seller/seller-request-status.enum';
-
 
 @Injectable()
 export class SellerRequestService {
@@ -150,7 +148,7 @@ export class SellerRequestService {
         buyerId: new Types.ObjectId(buyerId),
       });
 
-      if (!request ) {
+      if (!request) {
         return new ApiResponse(404, {}, Msg.BUYER_REQUEST_NOT_FOUND);
       }
 
@@ -180,6 +178,8 @@ export class SellerRequestService {
       if (!requests || requests.length === 0) {
         return new ApiResponse(404, {}, Msg.SELLER_REQUESTS_NOT_FOUND);
       }
+
+      console.log(requests);
       requests.map((request) => {
         (request.listingId as any).images = (
           request.listingId as any
