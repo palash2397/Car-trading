@@ -179,14 +179,15 @@ export class SellerRequestService {
         return new ApiResponse(404, {}, Msg.SELLER_REQUESTS_NOT_FOUND);
       }
 
-      console.log(requests);
       requests.map((request) => {
-        (request.listingId as any).images = (
-          request.listingId as any
-        ).images.map((image: any) => {
-          image.url = `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`;
-          return image;
-        });
+        if (request.listingId && (request.listingId as any).images) {
+          (request.listingId as any).images = (
+            request.listingId as any
+          ).images.map((image: any) => {
+            image.url = `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`;
+            return image;
+          });
+        }
       });
 
       return new ApiResponse(200, requests, Msg.SELLER_REQUESTS_FETCHED);
@@ -213,12 +214,14 @@ export class SellerRequestService {
         return new ApiResponse(404, {}, Msg.SELLER_REQUEST_NOT_FOUND);
       }
 
-      (request.listingId as any).images = (request.listingId as any).images.map(
-        (image: any) => {
-          image.url = `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`;
-          return image;
-        },
-      );
+      if (request.listingId && (request.listingId as any).images) {
+        (request.listingId as any).images = (request.listingId as any).images.map(
+          (image: any) => {
+            image.url = `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`;
+            return image;
+          },
+        );
+      }
 
       return new ApiResponse(200, request, Msg.SELLER_REQUEST_FETCHED);
     } catch (error) {
