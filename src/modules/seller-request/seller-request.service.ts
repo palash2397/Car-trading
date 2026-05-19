@@ -184,8 +184,13 @@ export class SellerRequestService {
           (request.listingId as any).images = (
             request.listingId as any
           ).images.map((image: any) => {
-            image.url = `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`;
-            return image;
+            const url = image.url;
+            return {
+              ...image,
+              url: url && !url.startsWith('http')
+                ? `${process.env.BASE_URL}/uploads/seller/listing/${url}`
+                : url,
+            };
           });
         }
       });
@@ -217,8 +222,13 @@ export class SellerRequestService {
       if (request.listingId && (request.listingId as any).images) {
         (request.listingId as any).images = (request.listingId as any).images.map(
           (image: any) => {
-            image.url = `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`;
-            return image;
+            const url = image.url;
+            return {
+              ...image,
+              url: url && !url.startsWith('http')
+                ? `${process.env.BASE_URL}/uploads/seller/listing/${url}`
+                : url,
+            };
           },
         );
       }

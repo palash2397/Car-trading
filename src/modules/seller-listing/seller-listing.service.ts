@@ -68,11 +68,14 @@ export class SellerListingService {
       }
 
       listings.forEach((listing) => {
-        listing.images = listing.images.map((image) => ({
-          url: image.url
-            ? `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`
-            : '',
-        })) as [{ url: string }];
+        listing.images = listing.images.map((image) => {
+          const url = image.url || '';
+          return {
+            url: url && !url.startsWith('http')
+              ? `${process.env.BASE_URL}/uploads/seller/listing/${url}`
+              : url,
+          };
+        }) as [{ url: string }];
       });
       return new ApiResponse(200, listings, Msg.LISTING_FETCHED);
     } catch (error) {
@@ -90,11 +93,14 @@ export class SellerListingService {
       if (!listing) {
         return new ApiResponse(404, {}, Msg.LISTING_NOT_FOUND);
       }
-      listing.images = listing.images.map((image) => ({
-        url: image.url
-          ? `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`
-          : '',
-      })) as [{ url: string }];
+      listing.images = listing.images.map((image) => {
+        const url = image.url || '';
+        return {
+          url: url && !url.startsWith('http')
+            ? `${process.env.BASE_URL}/uploads/seller/listing/${url}`
+            : url,
+        };
+      }) as [{ url: string }];
       return new ApiResponse(200, listing, Msg.LISTING_FETCHED);
     } catch (error) {
       console.log(`Error finding seller listing: ${error}`);

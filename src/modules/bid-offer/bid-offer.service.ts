@@ -118,7 +118,9 @@ export class BidOfferService {
           request.listingId.images = request.listingId.images.map(
             (image: any) => ({
               ...image,
-              url: `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`,
+              url: image.url && !image.url.startsWith('http')
+                ? `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`
+                : image.url,
             }),
           );
         }
@@ -163,7 +165,9 @@ export class BidOfferService {
       if (listingData?.images?.length) {
         listingData.images = listingData.images.map((image: any) => ({
           ...image,
-          url: `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`,
+          url: image.url && !image.url.startsWith('http')
+            ? `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`
+            : image.url,
         }));
       }
 
@@ -233,7 +237,9 @@ export class BidOfferService {
           request.listingId.images = request.listingId.images.map(
             (image: any) => ({
               ...image,
-              url: `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`,
+              url: image.url && !image.url.startsWith('http')
+                ? `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`
+                : image.url,
             }),
           );
         }
@@ -276,7 +282,9 @@ export class BidOfferService {
       if (listingData?.images?.length) {
         listingData.images = listingData.images.map((image: any) => ({
           ...image,
-          url: `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`,
+          url: image.url && !image.url.startsWith('http')
+            ? `${process.env.BASE_URL}/uploads/seller/listing/${image.url}`
+            : image.url,
         }));
       }
       return new ApiResponse(200, request, Msg.BID_OFFER_FETCHED);
