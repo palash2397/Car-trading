@@ -2,7 +2,7 @@ name: Car-trading CI/CD
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
 
 jobs:
   deploy:
@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          # cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -36,12 +36,12 @@ jobs:
 
       - name: Run backend
         run: |
-             export HOME=/home/runneruser
-             export PM2_HOME=/home/runneruser/.pm2
-             cd /var/www/car-trading/actions-runner/_work/Car-trading/Car-trading
-             chmod 644 .env
-             npm install
-             npm run build || true
-             /usr/bin/pm2 delete car-backend || true
-             /usr/bin/pm2 start dist/main.js --name car-backend
-             /usr/bin/pm2 save
+          export HOME=/home/runneruser
+          export PM2_HOME=/home/runneruser/.pm2
+          cd /var/www/car-trading/actions-runner/_work/Car-trading/Car-trading
+          chmod 644 .env
+          npm install
+          npm run build || true
+          /usr/bin/pm2 delete car-backend || true
+          /usr/bin/pm2 start dist/main.js --name car-backend
+          /usr/bin/pm2 save
