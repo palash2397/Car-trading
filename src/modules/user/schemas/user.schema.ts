@@ -51,6 +51,16 @@ export class User {
   roles: Role[];
 
   @Prop({
+    default: null,
+  })
+  otp?: string;
+
+  @Prop({
+    default: null,
+  })
+  otpExpiresAt?: Date;
+
+  @Prop({
     default: false,
   })
   isVerified: boolean;

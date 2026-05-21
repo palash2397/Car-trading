@@ -18,7 +18,7 @@ export class MechanicService {
 
     @InjectModel(User.name)
     private userModel: Model<UserDocument>,
-  ) {}
+  ) { }
 
   async updateProfile(
     userId: string,
@@ -59,8 +59,12 @@ export class MechanicService {
 
   async Profile(userId: string) {
     try {
+      const user = await this.userModel.findOne({ _id: userId });
+      if (!user) {
+        return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
+      }
       const mechanic = await this.mechanicModel
-        .findOne({ user: new Types.ObjectId(userId) })
+        .findOne({ user: user._id })
         .populate('user');
 
       console.log(mechanic);
