@@ -59,7 +59,8 @@ export class MechanicService {
 
   async Profile(userId: string) {
     try {
-      const user = await this.userModel.findOne({ _id: userId });
+      const user = await this.userModel.findById(userId)
+        .select('-password -otp -otpExpiresAt -isPhoneVerified -__v')
       if (!user) {
         return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
       }
@@ -69,7 +70,7 @@ export class MechanicService {
 
       console.log(mechanic);
       if (!mechanic) {
-        return new ApiResponse(404, {}, Msg.MECHANIC_NOT_FOUND);
+        return new ApiResponse(404, user, Msg.MECHANIC_NOT_FOUND);
       }
 
       mechanic.avatar = mechanic.avatar
