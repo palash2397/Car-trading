@@ -24,7 +24,6 @@ const { SWAGGER, Global } = constants;
 
 async function bootstrap() {
 
-    
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // morgan for logging
@@ -35,7 +34,7 @@ async function bootstrap() {
     prefix: '/uploads',
   });
 
-  // 🔥 enable global validation for DTOs
+  // enable global validation for DTOs
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -47,7 +46,7 @@ async function bootstrap() {
     }),
   );
 
-  // 🔥 cors
+  //  cors
   app.enableCors({
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -55,13 +54,13 @@ async function bootstrap() {
   });
 
 
-  // 🔥 WebSocket Adapter
+  // WebSocket Adapter
   app.useWebSocketAdapter(new IoAdapter(app));
 
   // Global Prefix
   app.setGlobalPrefix(Global.PREFIX);
 
-  // 🔥 Swagger Documentation
+  // Swagger Documentation
   const config = new DocumentBuilder()
     .setTitle(SWAGGER.TITLE)
     .setDescription(SWAGGER.DESCRIPTION)
@@ -83,7 +82,7 @@ async function bootstrap() {
     swaggerOptions: {
       persistAuthorization: true,
     },
-  }); 
+  });
   app.enableShutdownHooks();
   await app.listen(process.env.PORT ?? 4007);
   console.log(`🚀 Car trading server is running on port ${process.env.PORT}`);

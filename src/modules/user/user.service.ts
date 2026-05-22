@@ -15,7 +15,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
   async create(dto: CreateUserDto) {
     console.log('dto', dto);
