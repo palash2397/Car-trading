@@ -14,7 +14,6 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { IoAdapter } from '@nestjs/platform-socket.io';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
-
 import { join } from 'path';
 
 import morgan from 'morgan';
@@ -23,7 +22,6 @@ import constants from './constants';
 const { SWAGGER, Global } = constants;
 
 async function bootstrap() {
-
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // morgan for logging
@@ -52,7 +50,6 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
-
 
   // WebSocket Adapter
   app.useWebSocketAdapter(new IoAdapter(app));
@@ -83,6 +80,7 @@ async function bootstrap() {
       persistAuthorization: true,
     },
   });
+
   app.enableShutdownHooks();
   await app.listen(process.env.PORT ?? 4007);
   console.log(`🚀 Car trading server is running on port ${process.env.PORT}`);

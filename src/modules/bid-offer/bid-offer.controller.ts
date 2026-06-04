@@ -23,7 +23,7 @@ import { Roles } from 'src/modules/auth/roles/roles.decorator';
 import { CreateBidOfferDto } from './dto/create-bid-offer.dto';
 import { UpdateBidOfferStatusDto } from './dto/update-bid-offer-status.dto';
 
-@ApiTags('Bid-offer')
+@ApiTags('Bid Offer')
 @ApiBearerAuth('access-token')
 @UseGuards(JwtAuthGuard, RoleGuard)
 @Controller('bid-offer')

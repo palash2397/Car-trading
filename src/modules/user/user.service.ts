@@ -5,9 +5,9 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import { User, UserDocument } from './schemas/user.schema';
-
 import { ApiResponse } from 'src/utils/helpers/ApiResponse';
 import { Msg } from 'src/utils/helpers/responseMsg';
+
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -18,7 +18,7 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
   async create(dto: CreateUserDto) {
-    console.log('dto', dto);
+    // console.log('dto', dto);
     try {
       const userData = await this.userModel.findOne({ email: dto.email });
       if (userData) {
@@ -70,7 +70,6 @@ export class UserService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
-
 
   // async profile(userId: string) {
   //   try {

@@ -34,7 +34,7 @@ import { CreateSellerListingDto } from './dto/create-seller-listing';
 import { UpdateSellerListingDto } from './dto/update-seller-listing';
 import { DeleteCarImagesDto } from './dto/delete-car-images';
 
-@ApiTags('Seller-Listing')
+@ApiTags('Seller Listing')
 @ApiBearerAuth('access-token')
 @Controller('seller-listing')
 export class SellerListingController {

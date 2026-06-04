@@ -29,7 +29,7 @@ import { Roles } from 'src/modules/auth/roles/roles.decorator';
 import { CreateBuyRequestDto } from './dto/create-buy-request.dto';
 import { UpdateBuyRequestStatusDto } from './dto/update-buy-request-status.dto';
 
-@ApiTags('Buy-request')
+@ApiTags('Buy Request')
 @ApiBearerAuth('access-token')
 @Controller('buy-request')
 export class BuyerRequestController {

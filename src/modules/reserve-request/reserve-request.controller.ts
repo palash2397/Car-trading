@@ -12,10 +12,7 @@ import {
   Patch,
 } from '@nestjs/common';
 
-import {
-  ApiBearerAuth,
-  ApiTags
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { JwtAuthGuard } from 'src/modules/auth/jwt/jwt-auth.guard';
 import { RoleGuard } from 'src/modules/auth/roles/roles.guard';
@@ -26,7 +23,7 @@ import { Roles } from 'src/modules/auth/roles/roles.decorator';
 import { CreateReserveRequestDto } from './dto/create-reserve-request.dto';
 import { UpdateReserveRequestStatusDto } from './dto/update-reserve-request-status.dto';
 
-@ApiTags('Reserve-request')
+@ApiTags('Reserve Request')
 @ApiBearerAuth('access-token')
 @Controller('reserve-request')
 export class ReserveRequestController {
@@ -80,13 +77,10 @@ export class ReserveRequestController {
     return this.reserveRequestService.buyerRequest(req.user.id, id);
   }
 
-
-
   @Patch('/buyer/:id/cancel')
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Roles(Role.USER, Role.ADMIN)
   async buyerCancelRequest(@Req() req: any, @Param('id') id: string) {
     return this.reserveRequestService.buyerCancelRequest(req.user.id, id);
   }
-
 }

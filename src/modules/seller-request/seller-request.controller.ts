@@ -29,7 +29,7 @@ import { Roles } from 'src/modules/auth/roles/roles.decorator';
 import { CreateSellerRequestDto } from './dto/create-seller-request.dto';
 import { UpdateSellerRequestStatusDto } from './dto/update-seller-request-status.dto';
 
-@ApiTags('Seller-request')
+@ApiTags('Seller Request')
 @ApiBearerAuth('access-token')
 @Controller('seller-request')
 export class SellerRequestController {
@@ -41,7 +41,6 @@ export class SellerRequestController {
   async createRequest(@Req() req: any, @Body() dto: CreateSellerRequestDto) {
     return this.sellerRequestService.createRequest(req.user.id, dto);
   }
-
 
   @Get('/seller/all')
   @UseGuards(JwtAuthGuard, RoleGuard)
@@ -67,15 +66,12 @@ export class SellerRequestController {
     return this.sellerRequestService.updateRequestStatus(req.user.id, dto);
   }
 
-
-
   @Get('/buyer/all')
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Roles(Role.USER, Role.ADMIN)
   async buyerRequests(@Req() req: any) {
     return this.sellerRequestService.buyerRequests(req.user.id);
   }
-
 
   @Get('/buyer/:id')
   @UseGuards(JwtAuthGuard, RoleGuard)
