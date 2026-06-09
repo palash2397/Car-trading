@@ -61,6 +61,14 @@ export class UserService {
     }
   }
 
+  async verifyOtp(dto: any) {
+    try {
+    } catch (error) {
+      console.log(`error while verifying the otp`, error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
   async login(dto: LoginUserDto) {
     try {
       const userData = await this.userModel
