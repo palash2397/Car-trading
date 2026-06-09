@@ -12,6 +12,7 @@ import { UserService } from './user.service';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
+import { VerifyOtpDto } from './dto/verify-otp.dto';
 // import { UpdateUserDto } from './dto/update-user.dto';
 
 // import { JwtAuthGuard } from 'src/modules/auth/jwt/jwt-auth.guard';
@@ -19,7 +20,6 @@ import { LoginUserDto } from './dto/login-user.dto';
 
 // import { Role } from 'src/common/enums/user/role.enum';
 // import { Roles } from 'src/modules/auth/roles/roles.decorator';
-
 
 @ApiTags('User')
 @Controller('user')
@@ -31,10 +31,13 @@ export class UserController {
     return this.userService.create(dto);
   }
 
+  @Post('/verify-otp')
+  verifyOtp(@Body() dto: VerifyOtpDto) {
+    return this.userService.verifyOtp(dto);
+  }
+
   @Post('/login')
   login(@Body() dto: LoginUserDto) {
     return this.userService.login(dto);
   }
-
-
 }
