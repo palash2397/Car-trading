@@ -1,8 +1,12 @@
-// async function getData() {
+const user1 = {
+  name: "Pallu",
 
-//    return "data";
-// }
+  address: {
+    city: "Bhopal"
+  }
+};
 
-// const result = getData();
+const user2 = JSON.parse(JSON.stringify(user1));
+user2.address.city = "Delhi";
 
-// console.log(result);
+console.log(user1.address.city);

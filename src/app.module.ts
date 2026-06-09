@@ -17,6 +17,7 @@ import { BidOfferModule } from './modules/bid-offer/bid-offer.module';
 import { MechanicInspectionModule } from './modules/mechanic-inspection/mechanic-inspection.module';
 import { ShippingRequestModule } from './modules/shipping-request/shipping-request.module';
 import { PaymentTransferModule } from './modules/payment-transfer/payment-transfer.module';
+import { MailModule } from './modules/mail/mail.module';
 
 
 @Module({
@@ -41,6 +42,7 @@ import { PaymentTransferModule } from './modules/payment-transfer/payment-transf
     MechanicInspectionModule,
     ShippingRequestModule,
     PaymentTransferModule,
+    MailModule,
 
   ],
   controllers: [AppController],
