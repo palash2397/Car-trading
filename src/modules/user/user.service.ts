@@ -12,6 +12,7 @@ import { generateOtp, getExpirationTime } from 'src/utils/helpers';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
+import { VerifyOtpDto } from './dto/verify-otp.dto';
 
 import { MailService } from 'src/modules/mail/mail.service';
 import { getOtpEmailTemplate } from 'src/modules/mail/templates/otp.template';
@@ -61,8 +62,32 @@ export class UserService {
     }
   }
 
-  async verifyOtp(dto: any) {
+  async verifyOtp(dto: VerifyOtpDto) {
     try {
+      const checkUser = await this.userModel.findOne({ email: dto.email });
+      if (!checkUser) {
+        return new ApiResponse(400, {}, Msg.USER_NOT_FOUND);
+      }
+
+      if (checkUser.isVerified) {
+        return new ApiResponse(400, {}, Msg.USER_ALREADY_VERIFIED);
+      }
+
+      if (!checkUser.otp || !checkUser.otpExpiresAt) {
+        return new ApiResponse(400, {}, Msg.OTP_INVALID);
+      }
+
+      if (checkUser.otp !== dto.otp || new Date() > checkUser.otpExpiresAt) {
+        return new ApiResponse(400, {}, Msg.OTP_INVALID);
+      }
+
+      checkUser.isVerified = true;
+      checkUser.otp = undefined;
+      checkUser.otpExpiresAt = undefined;
+
+      await checkUser.save();
+
+      return new ApiResponse(200, {}, Msg.OTP_VERIFIED);
     } catch (error) {
       console.log(`error while verifying the otp`, error);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
