@@ -8,6 +8,7 @@ import { User, UserDocument } from './schemas/user.schema';
 import { ApiResponse } from 'src/utils/helpers/ApiResponse';
 import { Msg } from 'src/utils/helpers/responseMsg';
 
+import { generateOtp, getExpirationTime } from 'src/utils/helpers';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -15,17 +16,28 @@ import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(dto: CreateUserDto) {
     // console.log('dto', dto);
     try {
-      const userData = await this.userModel.findOne({ email: dto.email });
-      if (userData) {
-        return new ApiResponse(400, {}, Msg.INVALID_CREDENTIALS);
+      const checkUser = await this.userModel.findOne({ email: dto.email });
+      if (checkUser) {
+        if (!checkUser.isVerified) {
+          return new ApiResponse(400, {}, Msg.USER_NOT_VERIFIED);
+        }
+        return new ApiResponse(400, {}, Msg.USER_EXISTS);
       }
 
+      const otp = generateOtp();
+      const otpExpiresAt = getExpirationTime();
+
+      console.log('otp', otp);
+      console.log('otpExpiresAt', otpExpiresAt);
+
       const user = new this.userModel(dto);
+      user.otp = otp;
+      user.otpExpiresAt = otpExpiresAt;
       await user.save();
 
       return new ApiResponse(201, {}, Msg.USER_REGISTER);
@@ -43,7 +55,10 @@ export class UserService {
         return new ApiResponse(400, {}, Msg.INVALID_CREDENTIALS);
       }
 
-      const isPasswordValid = await bcrypt.compare(dto.password, userData.password);
+      const isPasswordValid = await bcrypt.compare(
+        dto.password,
+        userData.password,
+      );
       // console.log('isPasswordValid', isPasswordValid);
       if (!isPasswordValid) {
         return new ApiResponse(401, {}, Msg.INVALID_CREDENTIALS);

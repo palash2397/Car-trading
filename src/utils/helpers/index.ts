@@ -1,8 +1,10 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-export const generateOtp = () => {
-  return Math.floor(1000 + Math.random() * 9000).toString();
+import { randomInt } from 'crypto';
+
+export const generateOtp = (): string => {
+  return randomInt(100000, 999999).toString();
 };
 
 export const getExpirationTime = () => {
