@@ -70,6 +70,14 @@ export class UserService {
         return new ApiResponse(400, {}, Msg.INVALID_CREDENTIALS);
       }
 
+      if (!userData.isActive) {
+        return new ApiResponse(400, {}, Msg.ACCOUNT_DEACTIVATED);
+      }
+
+      if (!userData.isVerified) {
+        return new ApiResponse(400, {}, Msg.USER_NOT_VERIFIED);
+      }
+
       const isPasswordValid = await bcrypt.compare(
         dto.password,
         userData.password,
