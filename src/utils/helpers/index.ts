@@ -8,7 +8,7 @@ export const generateOtp = (): string => {
 };
 
 export const getExpirationTime = () => {
-  return new Date(Date.now() + 5 * 60 * 1000); // Current time + 5 minutes
+  return new Date(Date.now() + 5 * 60 * 1000);
 };
 
 export const deleteOldFile = (folder: string, file?: string): void => {

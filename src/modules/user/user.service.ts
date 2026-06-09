@@ -12,11 +12,17 @@ import { generateOtp, getExpirationTime } from 'src/utils/helpers';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
+
+import { MailService } from 'src/modules/mail/mail.service';
+import { getOtpEmailTemplate } from 'src/modules/mail/templates/otp.template';
 // import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private readonly mailService: MailService,
+  ) {}
 
   async create(dto: CreateUserDto) {
     // console.log('dto', dto);
@@ -36,11 +42,20 @@ export class UserService {
       console.log('otpExpiresAt', otpExpiresAt);
 
       const user = new this.userModel(dto);
+
       user.otp = otp;
       user.otpExpiresAt = otpExpiresAt;
+
       await user.save();
 
-      return new ApiResponse(201, {}, Msg.USER_REGISTER);
+      await this.mailService.sendEmail(
+        dto.email,
+        'OTP Verification - AutoTrade',
+        `Your OTP is ${otp}`,
+        getOtpEmailTemplate(otp, dto.firstName),
+      );
+
+      return new ApiResponse(201, {}, Msg.OTP_SENT);
     } catch (error) {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }

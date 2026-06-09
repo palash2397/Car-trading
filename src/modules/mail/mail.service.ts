@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 
 @Injectable()
 export class MailService {
-  private transporter;
+  private transporter: any;
 
   constructor() {
     this.transporter = nodemailer.createTransport({
@@ -19,7 +19,7 @@ export class MailService {
 
   async sendEmail(to: string, subject: string, text: string, html?: string) {
     await this.transporter.sendMail({
-      from: process.env.SMTP_USER, // change it
+      from: process.env.SMTP_USER,
       to,
       subject,
       text,
