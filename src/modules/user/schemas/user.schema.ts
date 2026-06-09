@@ -61,6 +61,11 @@ export class User {
   otpExpiresAt?: Date;
 
   @Prop({
+    default: 0,
+  })
+  otpAttempts: number;
+
+  @Prop({
     default: false,
   })
   isVerified: boolean;
