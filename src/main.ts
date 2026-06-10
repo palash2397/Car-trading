@@ -86,7 +86,3 @@ async function bootstrap() {
   console.log(`🚀 Car trading server is running on port ${process.env.PORT}`);
 }
 bootstrap();
-
-// taskkill /F /IM node.exe
-// kill-port 4007
-// npm run start:dev

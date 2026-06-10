@@ -51,7 +51,7 @@ export class UserService {
 
       await this.mailService.sendEmail(
         dto.email,
-        'OTP Verification - AutoTrade',
+        'OTP Verification',
         `Your OTP is ${otp}`,
         getOtpEmailTemplate(otp, dto.firstName),
       );
@@ -90,6 +90,42 @@ export class UserService {
       return new ApiResponse(200, {}, Msg.OTP_VERIFIED);
     } catch (error) {
       console.log(`error while verifying the otp`, error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  async resendOtp(email: string) {
+    try {
+      const checkUser = await this.userModel.findOne({ email });
+      if (!checkUser) {
+        return new ApiResponse(400, {}, Msg.USER_NOT_FOUND);
+      }
+
+      if (checkUser.isVerified) {
+        return new ApiResponse(400, {}, Msg.USER_ALREADY_VERIFIED);
+      }
+
+      const otp = generateOtp();
+      const otpExpiresAt = getExpirationTime();
+
+      console.log('otp', otp);
+      console.log('otpExpiresAt', otpExpiresAt);
+
+      checkUser.otp = otp;
+      checkUser.otpExpiresAt = otpExpiresAt;
+
+      await checkUser.save();
+
+      await this.mailService.sendEmail(
+        email,
+        'OTP Verification',
+        `Your OTP is ${otp}`,
+        getOtpEmailTemplate(otp, checkUser.firstName),
+      );
+
+      return new ApiResponse(200, {}, Msg.OTP_RESENT);
+    } catch (error) {
+      console.log(`error while resending the otp`, error);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
