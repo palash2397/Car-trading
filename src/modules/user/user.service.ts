@@ -13,6 +13,7 @@ import { generateOtp, getExpirationTime } from 'src/utils/helpers';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { VerifyOtpDto } from './dto/verify-otp.dto';
+import { ResendOtpDto } from './dto/resend-otp.dto';
 
 import { MailService } from 'src/modules/mail/mail.service';
 import { getOtpEmailTemplate } from 'src/modules/mail/templates/otp.template';
@@ -94,9 +95,9 @@ export class UserService {
     }
   }
 
-  async resendOtp(email: string) {
+  async resendOtp(dto: ResendOtpDto) {
     try {
-      const checkUser = await this.userModel.findOne({ email });
+      const checkUser = await this.userModel.findOne({ email: dto.email });
       if (!checkUser) {
         return new ApiResponse(400, {}, Msg.USER_NOT_FOUND);
       }
@@ -117,7 +118,7 @@ export class UserService {
       await checkUser.save();
 
       await this.mailService.sendEmail(
-        email,
+        dto.email,
         'OTP Verification',
         `Your OTP is ${otp}`,
         getOtpEmailTemplate(otp, checkUser.firstName),

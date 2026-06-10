@@ -13,6 +13,8 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { VerifyOtpDto } from './dto/verify-otp.dto';
+import { ResendOtpDto } from './dto/resend-otp.dto';
+
 // import { UpdateUserDto } from './dto/update-user.dto';
 
 // import { JwtAuthGuard } from 'src/modules/auth/jwt/jwt-auth.guard';
@@ -39,5 +41,10 @@ export class UserController {
   @Post('/login')
   login(@Body() dto: LoginUserDto) {
     return this.userService.login(dto);
+  }
+
+  @Post('/resend-otp')
+  resendOtp(@Body() dto: ResendOtpDto) {
+    return this.userService.resendOtp(dto);
   }
 }
