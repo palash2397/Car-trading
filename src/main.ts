@@ -15,7 +15,6 @@ import { IoAdapter } from '@nestjs/platform-socket.io';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { join } from 'path';
-
 import morgan from 'morgan';
 
 import constants from './constants';
@@ -85,4 +84,5 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 4007);
   console.log(`🚀 Car trading server is running on port ${process.env.PORT}`);
 }
+
 bootstrap();
